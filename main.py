@@ -1,4 +1,9 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+
+
 from sqlalchemy.orm import Session
 from models import Vehicle as VehicleModel, Base
 from database import engine, SessionLocal
@@ -127,3 +132,18 @@ def generate_vin():
 
     vin = ''.join(random.choices(valid_characters, k=17))
     return vin
+
+# Added exception handler to send a 400 Bad request rather
+# than a 422 unprocessable entity
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    # You can add logging here if needed
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content=jsonable_encoder({
+            "detail": exc.errors(),
+            "body": exc.body,
+        }),
+    )
