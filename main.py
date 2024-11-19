@@ -1,6 +1,4 @@
 from fastapi import FastAPI, HTTPException, Depends
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
 from models import Vehicle as VehicleModel, Base
 from database import engine, SessionLocal
