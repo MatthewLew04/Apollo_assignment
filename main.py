@@ -10,7 +10,7 @@ import string
 
 app = FastAPI()
 
-# Dependency to get the DB session
+# Dependency to get the DB session/create the DB session
 
 
 def get_db():
@@ -21,10 +21,7 @@ def get_db():
         db.close()
 
 
-# Create tables in the database (optional if already created)
 Base.metadata.create_all(bind=engine)
-
-# CRUD operations
 
 
 def get_vehicle(db: Session, vin: str):
@@ -84,8 +81,6 @@ def delete_vehicle(db: Session, vin: str):
         db.commit()
         return True
     return False
-
-# Routes
 
 
 @app.get("/vehicle", response_model=List[Vehicle])
