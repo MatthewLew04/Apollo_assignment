@@ -13,6 +13,8 @@ class VehicleBase(BaseModel):
     model_year: Optional[int] = None
     purchase_price: Optional[float] = None
     fuel_type: Optional[str] = None
+    color: Optional[str] = None
+    category: Optional[str] = None
 
 
 # class VehicleCreate(VehicleBase):
@@ -38,6 +40,8 @@ class VehicleCreate(BaseModel):
     # can't have any cars made before then
     purchase_price: float = Field(..., gt=0.0)  # Positive float
     fuel_type: str = Field(..., max_length=50)
+    color: str = Field(...)
+    category: str = Field(...)
 
 
 class Vehicle(VehicleBase):

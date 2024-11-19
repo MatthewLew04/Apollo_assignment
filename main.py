@@ -17,6 +17,9 @@ app = FastAPI()
 
 # Dependency to get the DB session/create the DB session
 
+# sold vehicles
+#
+
 
 def get_db():
     db = SessionLocal()
@@ -56,6 +59,8 @@ def create_vehicle(db: Session, vehicle: VehicleCreate):
         model_year=vehicle.model_year,
         purchase_price=vehicle.purchase_price,
         fuel_type=vehicle.fuel_type,
+        color=vehicle.color,
+        category=vehicle.category
     )
     db.add(db_vehicle)
     db.commit()
@@ -73,6 +78,8 @@ def update_vehicle(db: Session, vin: str, vehicle: VehicleCreate):
         db_vehicle.model_year = vehicle.model_year
         db_vehicle.purchase_price = vehicle.purchase_price
         db_vehicle.fuel_type = vehicle.fuel_type
+        db_vehicle.color = vehicle.color
+        db_vehicle.category = vehicle.category
         db.commit()
         db.refresh(db_vehicle)
         return db_vehicle

@@ -15,3 +15,5 @@ class Vehicle(Base):
     model_year = Column(Integer)
     purchase_price = Column(Float)
     fuel_type = Column(String(50))
+    category = Column(String)
+    color = Column(String)

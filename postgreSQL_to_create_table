@@ -1,4 +1,4 @@
-CREATE TABLE Vehicles (
+CREATE TABLE Soldvehicles (
     vin VARCHAR(17) PRIMARY KEY,
     manufacturer_name VARCHAR(255) NOT NULL,
     description TEXT,
@@ -6,7 +6,67 @@ CREATE TABLE Vehicles (
     model_name VARCHAR(255),
     model_year INTEGER,
     purchase_price DECIMAL(10, 2),
-    fuel_type VARCHAR(50)
+    fuel_type VARCHAR(50),
+    category VARCHAR(255),
+    color VARCHAR(255),
 );
 
-CREATE UNIQUE INDEX vin_unique_idx ON Vehicles (LOWER(vin));
+
+
+CREATE UNIQUE INDEX vin_unique_idx ON Vehicles1 (LOWER(vin));
+
+
+CREATE TABLE Soldvehicles (
+  CONSTRAINT VIN
+   FOREIGN KEY(vin)
+      REFERENCES Vehicles(vin)  
+);
+
+
+CREATE UNIQUE INDEX vin_unique_idx ON Vehicles1 (LOWER(vin));
+    PRIMARY KEY(vin, ID),
+    FOREIGN KEY(ID) REFERENCES Listing(CarID)
+
+
+    CREATE TABLE Soldvehicles(
+    PRIMARY KEY(vin),
+    FOREIGN KEY(vin) REFERENCES Vehicles(vin)
+    );
+
+
+
+ALTER TABLE Soldvehicles
+ADD VIN vin VARCHAR(17) PRIMARY KEY;
+
+INSERT INTO
+CONSTRAINT VIN
+   FOREIGN KEY(VIN)
+      REFERENCES Vehicles(VIN)
+
+   CONSTRAINT fk_customer
+      FOREIGN KEY(customer_id)
+	  REFERENCES customers(customer_id)
+
+
+
+
+
+You said:
+How do I fix this: CREATE TABLE Soldvehicles(
+postgres(#     PRIMARY KEY(vin),
+postgres(#     FOREIGN KEY(vin) REFERENCES Vehicles(vin)
+postgres(#     );
+ERROR:  column "vin" named in key does not exist
+LINE 2:     PRIMARY KEY(vin), given this initial creation: CREATE TABLE Soldvehicles (
+    vin VARCHAR(17) PRIMARY KEY,
+    manufacturer_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    horse_power INTEGER,
+    model_name VARCHAR(255),
+    model_year INTEGER,
+    purchase_price DECIMAL(10, 2),
+    fuel_type VARCHAR(50),
+    category VARCHAR(255),
+    color VARCHAR(255),
+);
+
