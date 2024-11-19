@@ -1,0 +1,12 @@
+CREATE TABLE Vehicles (
+    vin VARCHAR(17) PRIMARY KEY,
+    manufacturer_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    horse_power INTEGER,
+    model_name VARCHAR(255),
+    model_year INTEGER,
+    purchase_price DECIMAL(10, 2),
+    fuel_type VARCHAR(50)
+);
+
+CREATE UNIQUE INDEX vin_unique_idx ON Vehicles (LOWER(vin));
