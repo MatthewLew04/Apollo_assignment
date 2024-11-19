@@ -6,7 +6,7 @@ from pydantic.config import ConfigDict  # Import for model_config
 class VehicleBase(BaseModel):
     model_config = ConfigDict(protected_namespaces=())
 
-    manufacturer_name: str
+    manufacturer_name: Optional[str] = None
     description: Optional[str] = None
     horse_power: Optional[int] = None
     model_name: Optional[str] = None
