@@ -33,8 +33,8 @@ def get_vehicle(db: Session, vin: str):
     return db.query(VehicleModel).filter(VehicleModel.vin == vin).first()
 
 
-def get_vehicles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(VehicleModel).offset(skip).limit(limit).all()
+def get_vehicles(db: Session, skip: int = 0):
+    return db.query(VehicleModel).offset(skip).all()
 
 
 def create_vehicle(db: Session, vehicle: VehicleCreate):
@@ -89,8 +89,8 @@ def delete_vehicle(db: Session, vin: str):
 
 
 @app.get("/vehicle", response_model=List[Vehicle])
-def read_vehicles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    vehicles = get_vehicles(db, skip=skip, limit=limit)
+def read_vehicles(skip: int = 0, db: Session = Depends(get_db)):
+    vehicles = get_vehicles(db, skip=skip)
     return vehicles
 
 
