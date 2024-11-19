@@ -37,7 +37,7 @@ class VehicleCreate(BaseModel):
     model_year: int = Field(..., ge=1886)  # The first car was made in 1886 -
     # can't have any cars made before then
     purchase_price: float = Field(..., gt=0.0)  # Positive float
-    fuel_type: str = Field(..., max_length=50)  # Required field
+    fuel_type: str = Field(..., max_length=50)
 
 
 class Vehicle(VehicleBase):
