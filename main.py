@@ -7,6 +7,9 @@ from database import engine, SessionLocal
 from typing import List
 from schemas import Vehicle, VehicleCreate
 
+import random
+import string
+
 app = FastAPI()
 
 # Dependency to get the DB session
@@ -35,8 +38,17 @@ def get_vehicles(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_vehicle(db: Session, vehicle: VehicleCreate):
+    vin = vehicle.vin if vehicle.vin else generate_vin()
+
+    # Check for duplicate VIN if manually provided
+    if vehicle.vin:
+        existing_vehicle = db.query(VehicleModel).filter(
+            VehicleModel.vin == vin).first()
+        if existing_vehicle:
+            raise HTTPException(status_code=422, detail="VIN already exists")
+
     db_vehicle = VehicleModel(
-        vin="unique_vin",  # Generate or get VIN here (e.g., UUID)
+        vin=vin,  # Generate or get VIN here (e.g., UUID)
         manufacturer_name=vehicle.manufacturer_name,
         description=vehicle.description,
         horse_power=vehicle.horse_power,
@@ -111,3 +123,14 @@ def delete_vehicle_endpoint(vin: str, db: Session = Depends(get_db)):
     if not delete_vehicle(db, vin):
         raise HTTPException(status_code=404, detail="Vehicle not found")
     return {"detail": "Vehicle deleted"}
+
+
+def generate_vin():
+    """Generates a unique, valid 17-character alphanumeric VIN ."""
+    allowed_letters = "ABCDEFGHJKLMNPQRSTUVWXYZ"  # Excludes I, O, Q
+    allowed_digits = string.digits  # Digits 0-9
+    valid_characters = allowed_digits + allowed_letters
+    # Select 17 random characters
+
+    vin = ''.join(random.choices(valid_characters, k=17))
+    return vin
